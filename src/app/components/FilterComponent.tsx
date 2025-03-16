@@ -4,7 +4,7 @@ import { FiPlus, FiSearch, FiTrash } from "react-icons/fi";
 import { motion } from "framer-motion";
 
 const categories = ["Dimensions", "Tags", "Metrics"];
-const filterOptions = {
+const filterOptions: Record<string, string[]> = {
   Tags: ["Character", "Background", "Elements", "CTA Position", "CTA Text"],
   Metrics: ["Spends", "Clicks", "Impressions", "Conversions", "CTR", "CPC"],
   Dimensions: ["Width", "Height", "Aspect Ratio", "Resolution"],
@@ -16,7 +16,7 @@ const FilterDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Tags");
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedFilter, setSelectedFilter] = useState(null);
+  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [filterCount, setFilterCount] = useState(0);
@@ -42,6 +42,8 @@ const FilterDropdown = () => {
     setFilterCount(selectedValues.length);
     setIsOpen(false);
   };
+
+  const currentOptions = selectedCategory === "Tags" ? characterOptions : filterOptions[selectedCategory] || [];
 
   return (
     <div className="relative inline-block" ref={dropdownRef}>
@@ -135,16 +137,16 @@ const FilterDropdown = () => {
                   <li className="p-2 flex items-center gap-2">
                     <input
                       type="checkbox"
-                      checked={selectedValues.length === characterOptions.length}
+                      checked={selectedValues.length === currentOptions.length}
                       onChange={() =>
                         setSelectedValues(
-                          selectedValues.length === characterOptions.length ? [] : characterOptions
+                          selectedValues.length === currentOptions.length ? [] : currentOptions
                         )
                       }
                     />
                     Select all
                   </li>
-                  {characterOptions.filter((opt) =>
+                  {currentOptions.filter((opt) =>
                     opt.toLowerCase().includes(searchTerm.toLowerCase())
                   ).map((opt) => (
                     <li key={opt} className="p-2 flex items-center gap-2 cursor-pointer" onClick={() => toggleValue(opt)}>
