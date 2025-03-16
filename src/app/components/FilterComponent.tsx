@@ -4,7 +4,7 @@ import { FiPlus, FiSearch, FiTrash } from "react-icons/fi";
 import { motion } from "framer-motion";
 
 const categories = ["Dimensions", "Tags", "Metrics"];
-const filterOptions = {
+const filterOptions: Record<string, string[]> = {
   Tags: ["Character", "Background", "Elements", "CTA Position", "CTA Text"],
   Metrics: ["Spends", "Clicks", "Impressions", "Conversions", "CTR", "CPC"],
   Dimensions: ["Width", "Height", "Aspect Ratio", "Resolution"],
@@ -16,8 +16,8 @@ const FilterDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Tags");
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedFilter, setSelectedFilter] = useState(null);
-  const [selectedValues, setSelectedValues] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [filterCount, setFilterCount] = useState(0);
 
@@ -108,18 +108,6 @@ const FilterDropdown = () => {
               <div className="flex justify-between items-center border-b pb-2">
                 <span className="text-gray-700">{selectedCategory} &gt; {selectedFilter}</span>
                 <FiTrash className="text-gray-500 cursor-pointer" onClick={() => setSelectedFilter(null)} />
-              </div>
-              <div className="p-2 border rounded-md mt-2">
-                <span className="text-gray-500">is</span>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    placeholder="Select Value"
-                    className="w-full p-2 border rounded-md cursor-pointer"
-                    onClick={(e) => e.stopPropagation()}
-                    readOnly
-                  />
-                </div>
               </div>
               <div className="mt-2 p-2 border rounded-md">
                 <div className="flex items-center p-2 border-b">
