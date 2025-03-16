@@ -1,5 +1,6 @@
 import { FiFilter } from "react-icons/fi";
 import FilterComponent from "./components/FilterComponent";
+import Table from "./components/Table";
 
 const HomePage = () => {
   return (
@@ -10,7 +11,7 @@ const HomePage = () => {
         <img
           src="https://segwise.ai/opengraph-image.png?ae356eb24c0099ff"
           alt="Company Logo"
-          className="w-8 h-8 mr-3" // Added margin-right for spacing
+          className="w-8 h-8 mr-3"
         />
 
         {/* Company Name & Tagline */}
@@ -34,8 +35,13 @@ const HomePage = () => {
         <ul className="text-gray-600 list-disc pl-5 mt-2">
           <li>User should be able to add multiple filters</li>
           <li>Various states including hover and focus provided to the right</li>
-          <li>Click on the link(button) placed above to play prototype</li>
+          <li>Click on the link (button) placed above to play prototype</li>
         </ul>
+      </div>
+
+      {/* ✅ Table Component */}
+      <div className="mt-6 w-full max-w-5xl">
+        <Table />
       </div>
     </div>
   );

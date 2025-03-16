@@ -1,7 +1,8 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { FiPlus, FiSearch, FiTrash } from "react-icons/fi";
+import { FiPlus, FiSearch, FiTrash, FiX } from "react-icons/fi";
 import { motion } from "framer-motion";
+import mockData from "../mockData.json";
 
 const categories = ["Dimensions", "Tags", "Metrics"];
 const filterOptions: Record<string, string[]> = {
@@ -20,6 +21,7 @@ const FilterDropdown = () => {
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [filterCount, setFilterCount] = useState(0);
+  const [selectedRow, setSelectedRow] = useState<any | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -79,9 +81,8 @@ const FilterDropdown = () => {
                 {categories.map((category) => (
                   <button
                     key={category}
-                    className={`p-2 w-1/3 text-center ${
-                      selectedCategory === category ? "border-b-2 border-black text-black font-semibold" : "text-gray-500 hover:text-gray-800"
-                    }`}
+                    className={`p-2 w-1/3 text-center ${selectedCategory === category ? "border-b-2 border-black text-black font-semibold" : "text-gray-500 hover:text-gray-800"
+                      }`}
                     onClick={() => setSelectedCategory(category)}
                   >
                     {category}
@@ -111,18 +112,6 @@ const FilterDropdown = () => {
                 <span className="text-gray-700">{selectedCategory} &gt; {selectedFilter}</span>
                 <FiTrash className="text-gray-500 cursor-pointer" onClick={() => setSelectedFilter(null)} />
               </div>
-              <div className="p-2 border rounded-md mt-2">
-                <span className="text-gray-500">is</span>
-                <div className="mt-2">
-                  <input
-                    type="text"
-                    placeholder="Select Value"
-                    className="w-full p-2 border rounded-md cursor-pointer"
-                    onClick={(e) => e.stopPropagation()}
-                    readOnly
-                  />
-                </div>
-              </div>
               <div className="mt-2 p-2 border rounded-md">
                 <div className="flex items-center p-2 border-b">
                   <FiSearch className="text-gray-500" />
@@ -134,18 +123,6 @@ const FilterDropdown = () => {
                   />
                 </div>
                 <ul>
-                  <li className="p-2 flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={selectedValues.length === currentOptions.length}
-                      onChange={() =>
-                        setSelectedValues(
-                          selectedValues.length === currentOptions.length ? [] : currentOptions
-                        )
-                      }
-                    />
-                    Select all
-                  </li>
                   {currentOptions.filter((opt) =>
                     opt.toLowerCase().includes(searchTerm.toLowerCase())
                   ).map((opt) => (
